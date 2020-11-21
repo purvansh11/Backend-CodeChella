@@ -18,14 +18,7 @@ from django.urls import path
 from myapp import views
 
 urlpatterns = [
-    path('' , views.index,name='myapp'),
+    path('reportTweet' , views.reportTweet, name= 'reportTweet'),
+    path('getTweet', views.getTweet, name = 'getTweet'),
 ]
 
-# from django.conf.urls import include, url
-
-# from django.contrib import admin
-# admin.autodiscover()
-
-# urlpatterns = [
-#    url(r'^admin/', include(admin.site.urls)),
-# ]
