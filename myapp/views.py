@@ -22,6 +22,8 @@ api = tweepy.API(auth)
 userDetails = api.me()
 screenname = userDetails.screen_name
 
+def Diff(li1, li2):
+    return (list(list(set(li1)-set(li2)) + list(set(li2)-set(li1))))
 
 def getTweet(request):
 	if request.method == 'GET':
@@ -40,13 +42,24 @@ def getTweet(request):
 
 def reportTweet(request):
 	if request.method == 'POST': 
+		allMentioned = re.search("/@[A-Za-z0-9_]+/g", request.tweet) #all mentioned tweets
+		reportedLists = Diff(allMentioned, list("@"+screenname)):
 
-		allMentioned = re.search("/@[A-Za-z0-9_]+/g", request.tweet)
-		# reportedLists = except the screenname
+		#except the screenname
 		for person in reportedLists:
 			api.report_spam(person,request.isblock)
-		return HttpResponse("asfafa")
+		return JsonResponse(reportedLists,state=False)
       #GET USERNAME/ID FROM REQUEST => CALL THE API TO BLOCK AND REPORT THE USER
+
+def removeTag(request):
+	if request.method == 'POST':
+		allMentioned = re.search("/@[A-Za-z0-9_]+/g", request.tweet) #all mentioned tweets
+		reportedLists = Diff(allMentioned, list("@"+screenname)):
+		cleanTweet=""
+		for person in reportedLists:
+			index = request.tweet.find(person)
+			cleanTweet+=request.tweet.substr(index,index+len(person)+1)
+		return JsonResponse(cleanTweet,state=False)
 
 
 
