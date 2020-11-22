@@ -42,8 +42,8 @@ def getTweet(request):
 
 def reportTweet(request):
 	if request.method == 'POST': 
-		allMentioned = re.search("/@[A-Za-z0-9_]+/g", request.tweet) #all mentioned tweets
-		reportedLists = Diff(allMentioned, list("@"+screenname)):
+		allMentioned = re.findall("/@[A-Za-z0-9_]+/g", request.tweet) #all mentioned tweets
+		reportedLists = Diff(allMentioned, list("@"+screenname))
 
 		#except the screenname
 		for person in reportedLists:
@@ -53,8 +53,8 @@ def reportTweet(request):
 
 def removeTag(request):
 	if request.method == 'POST':
-		allMentioned = re.search("/@[A-Za-z0-9_]+/g", request.tweet) #all mentioned tweets
-		reportedLists = Diff(allMentioned, list("@"+screenname)):
+		allMentioned = re.findall("/@[A-Za-z0-9_]+/g", request.tweet) #all mentioned tweets
+		reportedLists = Diff(allMentioned, list("@"+screenname))
 		cleanTweet=""
 		for person in reportedLists:
 			index = request.tweet.find(person)
